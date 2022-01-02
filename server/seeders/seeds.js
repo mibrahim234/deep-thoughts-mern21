@@ -1,4 +1,10 @@
+// The order of operations in this seed.js file is important because we need user data before we can create thought, reaction, or friend data.
+// start app by running seed data 
+
 const faker = require('faker');
+// here to help generate dummy data for us to use.
+// faker: make our lives a lot easier when we have to work with a lot of data 
+//but don't have time to dedicate to creating that data.
 
 const db = require('../config/connection');
 const { Thought, User } = require('../models');
