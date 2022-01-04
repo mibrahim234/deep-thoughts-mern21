@@ -10,6 +10,14 @@ const { gql } = require('apollo-server-express');
 // To define a query, you use the type Query {}
 // All type definitions need to specify what type of data is expected in return, no matter what
 const typeDefs = gql`
+  type User {
+    _id: ID
+    username: String
+    email: String
+    friendCount: Int
+    thoughts: [Thought]
+    friends: [User]
+  }
 
   type Thought {
     _id: ID
@@ -26,23 +34,32 @@ const typeDefs = gql`
     createdAt: String
     username: String
   }
-  type User {
-    _id: ID
-    username: String
-    email: String
-    friendCount: Int
-    thoughts: [Thought]
-    friends: [User]
-  }
-  
+
   type Query {
     users: [User]
     user(username: String!): User
     thoughts(username: String): [Thought]
     thought(_id: ID!): Thought
   }
+
+  type Mutation {
+    login(email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!): Auth
+  }
+  type Auth {
+    token: ID!
+    user: User
+  }
 `;
 // 4 queries defined 2 for thoughts, 2 for users
 // the ! indicates that for that query to be carried out, that data must exist
+
+// two mutations one for login, one for addUser
+// Both will return a User object: either the user who successfully logged in or the user who was just created on sign-up.
+
+// auth type must return a token and can optionally include any other data
+
+
+
 // export the typeDefs
 module.exports = typeDefs;
