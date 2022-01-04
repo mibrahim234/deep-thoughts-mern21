@@ -35,7 +35,13 @@ const typeDefs = gql`
     username: String
   }
 
+  type Auth {
+    token: ID!
+    user: User
+  }
+
   type Query {
+    me: User
     users: [User]
     user(username: String!): User
     thoughts(username: String): [Thought]
@@ -45,12 +51,16 @@ const typeDefs = gql`
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
-  }
-  type Auth {
-    token: ID!
-    user: User
+    addThought(thoughtText: String!): Thought
+    addReaction(thoughtId: ID!, reactionBody: String!): Thought
+    addFriend(friendId: ID!): User
   }
 `;
+
+
+
+
+
 // 4 queries defined 2 for thoughts, 2 for users
 // the ! indicates that for that query to be carried out, that data must exist
 
