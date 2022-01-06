@@ -12,7 +12,10 @@ import {
   createHttpLink,
  // allows us to control how the Apollo Client makes a request. Think of it like middleware for the outbound network requests.
 } from '@apollo/client';
+
+//r etrieve the token from localStorage and include it with each request to the API
 import { setContext } from '@apollo/client/link/context';
+// With this function, setContext, we can create essentially a middleware function that will retrieve the token for us and combine it with the existing httpLink
 
 
 import Header from './components/Header';
@@ -43,10 +46,12 @@ const authLink = setContext((_, { headers }) => {
     },
   };
 });
+// With authLink, we use the setContext() function to retrieve the token from localStorage and set the HTTP request headers of every request to include the token, whether the request needs it or not.
+// if request doesn't need it, server-side won't look for it
 
 const client = new ApolloClient({
-  //instantiate the Apollo Client instance and create the connection to the API endpoint
-  link: httpLink,
+  // combine the authLink and httpLink objects so that every request retrieves the token and sets the request headers before making the request to the API
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
   //instantiate a new cache object using newmemorycache
 });

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
+// have to initialize our LOGIN_USER mutation with the useMutation() Hook
 
 import Auth from '../utils/auth';
 
@@ -27,6 +28,7 @@ const Login = (props) => {
         variables: { ...formState },
       });
 
+     //  take the token and set it to localStorage.
       Auth.login(data.login.token);
     } catch (e) {
       console.error(e);
