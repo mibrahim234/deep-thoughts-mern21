@@ -47,7 +47,7 @@ if (process.env.NODE_ENV === 'production') {
 
 // if we make a GET request to any location on the server that doesn't have an explicit route defined, respond with the production-ready React front-end code
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+  res.sendFile(path.join(__dirname, '../client/public/index.html'));
 });
 
 
