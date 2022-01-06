@@ -1,7 +1,7 @@
 {
   "name": "deep-thoughts-mern21",
   "version": "1.0.0",
-  "description": "module 21 mern online lesson-deep thoughts app",
+  "description": "module 21 mern online lesson",
   "main": "server/server.js",
   "dependencies": {},
   "devDependencies": {
@@ -11,9 +11,8 @@
     "start": "node server/server.js",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
     "install": "cd server && npm i && cd ../client && npm i",
-    "seed": "cd server && npm run seed",
-    "build": "cd client && npm run build"
-  },
+    "seed": "cd server && npm run seed"
+    },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mibrahim234/deep-thoughts-mern21.git"

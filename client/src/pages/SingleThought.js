@@ -5,8 +5,8 @@ import { useParams } from 'react-router-dom';
 import ReactionList from '../components/ReactionList';
 // reaction component
 
-import { QUERY_THOUGHT } from '../utils/queries';
 import { useQuery } from '@apollo/client';
+import { QUERY_THOUGHT } from '../utils/queries';
 // import queries.js/ apolloclient
 
 const SingleThought = (props) => {
@@ -50,7 +50,8 @@ const SingleThought = (props) => {
     </div>
   );
 };
+
+export default SingleThought;
 // The only new addition is adding the ReactionList component at the bottom, passing in the reactions array as a prop. 
 // We combined this with a thought.reactionCount > 0 expression to prevent rendering the reactions if the array is empty.
 
-export default SingleThought;

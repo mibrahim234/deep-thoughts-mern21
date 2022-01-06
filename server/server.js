@@ -36,7 +36,6 @@ startServer();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// set these up later when deployed to heroku 
 // Serve up static assets
 // come into effect when we go into production
 if (process.env.NODE_ENV === 'production') {
@@ -47,9 +46,8 @@ if (process.env.NODE_ENV === 'production') {
 
 // if we make a GET request to any location on the server that doesn't have an explicit route defined, respond with the production-ready React front-end code
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/public/index.html'));
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
-
 
 // we run our server, we listen for that connection to be made with db.open(). 
 // Upon a successful connection, we start the server.

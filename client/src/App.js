@@ -1,4 +1,7 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+// BrowserRouter and Route are components that the React Router library provides. 
+// We renamed BrowserRouter to Router to make it easier to work with.
 import {
   ApolloClient,
  // is a constructor function that will help initialize the connection to the GraphQL API server.
@@ -9,25 +12,36 @@ import {
   createHttpLink,
  // allows us to control how the Apollo Client makes a request. Think of it like middleware for the outbound network requests.
 } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+
 
 import Header from './components/Header';
 import Footer from './components/Footer';
+
+import Home from './pages/Home';
 import Login from './pages/Login';
 import NoMatch from './pages/NoMatch';
 import SingleThought from './pages/SingleThought';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-// BrowserRouter and Route are components that the React Router library provides. 
-// We renamed BrowserRouter to Router to make it easier to work with.
 
 
-import Home from './pages/Home';
+
 
 const httpLink = createHttpLink({
   // establish a new link to the graphql server
   // URI stands for "Uniform Resource Identifier."
   uri: '/graphql',
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('id_token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `Bearer ${token}` : '',
+    },
+  };
 });
 
 const client = new ApolloClient({
@@ -46,17 +60,16 @@ function App() {
         <div className="flex-column justify-flex-start min-100-vh">
           <Header />
           <div className="container">
-  <Switch>
-    <Route exact path="/" component={Home} />
-    <Route exact path="/login" component={Login} />
-    <Route exact path="/signup" component={Signup} />
-    <Route exact path="/profile/:username?" component={Profile} />
-   <Route exact path="/thought/:id" component={SingleThought} />
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={Signup} />
+              <Route exact path="/profile/:username?" component={Profile} />
+              <Route exact path="/thought/:id" component={SingleThought} />
 
-
-    <Route component={NoMatch} />
-  </Switch>
-</div>
+              <Route component={NoMatch} />
+            </Switch>
+          </div>
           <Footer />
         </div>
       </Router>
