@@ -64,6 +64,7 @@ const resolvers = {
         const token = signToken(user);
         return { token, user };
       },
+      // context.user used cuz only logged in ppl can add things 
       addThought: async (parent, args, context) => {
         if (context.user) {
           const thought = await Thought.create({ ...args, username: context.user.username });
