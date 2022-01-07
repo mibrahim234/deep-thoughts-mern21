@@ -65,6 +65,9 @@ export const QUERY_USER = gql`
   }
 `;
 
+// With this query, we're going to retrieve essentially all data related to the logged-in user. 
+// We'll retrieve their user information, thoughts, reactions to those thoughts, and friend list
+// great for users personal profile page 
 export const QUERY_ME = gql`
   {
     me {
@@ -92,6 +95,8 @@ export const QUERY_ME = gql`
   }
 `;
 
+// query for homepage data
+// 
 export const QUERY_ME_BASIC = gql`
   {
     me {

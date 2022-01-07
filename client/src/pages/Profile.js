@@ -1,5 +1,6 @@
 import React from 'react';
 import { Redirect, useParams } from 'react-router-dom';
+// Redirect will allow us to redirect the user to another route within the application.
 
 import ThoughtList from '../components/ThoughtList';
 import FriendList from '../components/FriendList';
@@ -14,6 +15,8 @@ const Profile = (props) => {
   const { loading, data } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
     variables: { username: userParam },
   });
+// check the value of our parameter and conditionally run a query based on the result
+// Now if there's a value in userParam that we got from the URL bar, we'll use that value to run the QUERY_USER query. If there's no value in userParam, like if we simply visit /profile as a logged-in user, we'll execute the QUERY_ME query instead.
 
   const user = data?.me || data?.user || {};
 
@@ -26,6 +29,8 @@ const Profile = (props) => {
     return <div>Loading...</div>;
   }
 
+  // if there is no user data to display, we know that we aren't logged in or at another user's profile page. 
+  // Instead of redirecting the user away, we simply inform them that they need to be logged in to see this page and they must log in or sign up to use it.
   if (!user?.username) {
     return (
       <h4>
@@ -35,6 +40,8 @@ const Profile = (props) => {
     );
   }
 
+  // 44-46: adjust the messaging displayed to a user on their profile page
+  // if userParam doesn't exist, we'll get a message saying "Viewing your profile." Otherwise, it will display the username of the other user on their profile.
   return (
     <div>
       <div className="flex-row mb-3">
