@@ -2,16 +2,22 @@ import React from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 // Redirect will allow us to redirect the user to another route within the application.
 
+import ThoughtForm from '../components/ThoughtForm';
 import ThoughtList from '../components/ThoughtList';
 import FriendList from '../components/FriendList';
 
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_USER, QUERY_ME } from '../utils/queries';
+// profile page relies on query_me to populate thoughts 
+
+import { ADD_FRIEND } from '../utils/mutations';
 import Auth from '../utils/auth';
 
 const Profile = (props) => {
   const { username: userParam } = useParams();
 
+// we need to destructure the mutation function from ADD_FRIEND so we can use it in a click function.
+const [addFriend] = useMutation(ADD_FRIEND);
   const { loading, data } = useQuery(userParam ? QUERY_USER : QUERY_ME, {
     variables: { username: userParam },
   });
@@ -40,14 +46,37 @@ const Profile = (props) => {
     );
   }
 
+  // callback function for button 
+  const handleClick = async () => {
+    try {
+      await addFriend({
+        variables: { id: user._id },
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   // 44-46: adjust the messaging displayed to a user on their profile page
   // if userParam doesn't exist, we'll get a message saying "Viewing your profile." Otherwise, it will display the username of the other user on their profile.
+
+  // 61-69: include button element
+  // Note that the <button> element has an onClick attribute. We'll need to define the callback function that it references above 
+
+  // 70-74: the userParam variable is only defined when the route includes a username (e.g., /profile/Marisa86). 
+  // Thus, the button won't display when the route is simply /profile.
   return (
     <div>
       <div className="flex-row mb-3">
         <h2 className="bg-dark text-secondary p-3 display-inline-block">
           Viewing {userParam ? `${user.username}'s` : 'your'} profile.
         </h2>
+
+        {userParam && (
+          <button className="btn ml-auto" onClick={handleClick}>
+            Add Friend
+          </button>
+        )}
       </div>
 
       <div className="flex-row justify-space-between mb-3">
@@ -66,8 +95,10 @@ const Profile = (props) => {
           />
         </div>
       </div>
+      <div className="mb-3">{!userParam && <ThoughtForm />}</div>
     </div>
   );
 };
-
 export default Profile;
+
+// 96: make sure the form only displays on the user's own Profile page, not on other users' pages.

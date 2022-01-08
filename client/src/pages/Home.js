@@ -1,6 +1,8 @@
 import React from 'react';
 import ThoughtList from '../components/ThoughtList';
 import FriendList from '../components/FriendList';
+import ThoughtForm from '../components/ThoughtForm';
+
 
 
 import Auth from '../utils/auth';
@@ -35,9 +37,16 @@ const loggedIn = Auth.loggedIn();
 // If you're logged in, the loggedIn variable will be true; otherwise, it will be false
 
 //(38-48) With this in place, we're conditionally defining the layout for this <div>. If the user isn't logged in, it'll span the full width of the row. But if you the user is logged in, it'll only span eight columns, leaving space for a four-column <div> on the righthand side.
+
+// 44-48 conditionally render thoughtform
 return (
   <main>
     <div className="flex-row justify-space-between">
+      {loggedIn && (
+        <div className="col-12 mb-3">
+          <ThoughtForm />
+        </div>
+      )}
       <div className={`col-12 mb-3 ${loggedIn && 'col-lg-8'}`}>
         {loading ? (
           <div>Loading...</div>
@@ -61,7 +70,6 @@ return (
   </main>
 );
 };
-
 // (51-59): Now if the value of loggedIn is true and there is data in the userData variable we created from the useQuery() Hook, we'll render a righthand column <div> that holds our <FriendList> component!
 
 
