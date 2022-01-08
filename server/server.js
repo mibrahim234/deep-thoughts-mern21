@@ -36,17 +36,20 @@ startServer();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+
+// IF AND APP.GET ARE FOR PRODUCTION ONLY--code out when using locally 
 // Serve up static assets
 // come into effect when we go into production
-if (process.env.NODE_ENV === 'production') {
-  // check is node environment is in production
-  app.use(express.static(path.join(__dirname, '../client/build')));
+  // checks if node environment is in production
   // If it is, we instruct the Express.js server to serve any files in the React application's build directory in the client folder.
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
 }
+
 
 // if we make a GET request to any location on the server that doesn't have an explicit route defined, respond with the production-ready React front-end code
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../client/public/index.html'));
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
 // we run our server, we listen for that connection to be made with db.open(). 
