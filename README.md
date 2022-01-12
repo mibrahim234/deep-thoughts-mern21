@@ -4,3 +4,5 @@ seeds not working (data is there)
 --changed server.js build to public 
 --links not working(webvitals install in client side)
 --fix heroku deployment
+
+this is a comment to check
